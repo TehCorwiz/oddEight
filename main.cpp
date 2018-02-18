@@ -9,13 +9,14 @@
 
 std::streampos fileSize(std::ifstream &file_stream) {
 
-    std::streampos fsize = 0;
+    std::streampos file_size = 0;
 
-    fsize = file_stream.tellg();
+    file_size = file_stream.tellg();
     file_stream.seekg(0, std::ios::end);
-    fsize = file_stream.tellg() - fsize;
+    file_size = file_stream.tellg() - file_size;
     file_stream.seekg(0, std::ios::beg);
-    return fsize;
+
+    return file_size;
 }
 
 int main() {
@@ -33,7 +34,9 @@ int main() {
 
     auto rom_size = fileSize(rom_file);
     if (rom_size > Memory::romMaxSize) {
-        std::cout << "Rom size: " << rom_size << " exceed maximum size of " << Memory::romMaxSize << " bytes." << std::endl;
+        std::cout << "Rom size: " << rom_size
+                  << " exceed maximum size of " << Memory::romMaxSize << " bytes."
+                  << std::endl;
         return true;
     }
 
