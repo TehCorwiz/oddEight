@@ -10,20 +10,21 @@
 
 class Memory {
 public:
+    const static short romStartAddress = 0x0200;
+    const static short romMaxSize = 4096 - 512 - 256 - 96;
+
     Memory();
 
     std::byte readByte(int address);
 
-    void writeByte(int address, std::byte byte);
+    void writeByte(std::byte byte, short address);
 
-    bool loadRom(std::ifstream &rom);
+    void writeBytes(const char data[], short data_size, short start_address);
 
     void clear();
 
-    const static int romStartAddress = 0x0200;
-    const static int romMaxSize = 4096 - 512 - 256 - 96;
 private:
-    std::byte memory[4096] = {(std::byte)0};
+    std::byte _map[4096] = {(std::byte) 0};
 };
 
 

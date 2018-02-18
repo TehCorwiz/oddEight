@@ -13,30 +13,23 @@ Memory::Memory() {
 
 std::byte Memory::readByte(int address) {
     // TODO: This is certainly more nuanced, but this will suffice while I fiddle with the language.
-    return this->memory[address];
+    return this->_map[address];
 }
 
-void Memory::writeByte(int address, std::byte value) {
-    this->memory[address] = value;
+void Memory::writeByte(std::byte value, short address) {
+    this->_map[address] = value;
 }
 
-bool Memory::loadRom(std::ifstream &rom) {
-    if (!rom.good()) return true;
-
-    char rom_data[romMaxSize];
-    rom.readsome(rom_data, romMaxSize);
-
-    int current_address = romStartAddress;
-    for (char value:rom_data) {
-        this->memory[current_address] = (std::byte) value;
-        current_address++;
+void Memory::writeBytes(const char data[], const short data_size, const short start_address) {
+    for (int i = 0; i < data_size; i++) {
+        this->_map[start_address + i] = (std::byte) data[i];
     }
 
-    return false;
+    std::cout << "Bytes written: " << data_size << "." << std::endl;
 }
 
 void Memory::clear() {
-    for (std::byte &cell: this->memory) {
+    for (std::byte &cell: this->_map) {
         cell = (std::byte) 0;
     }
 

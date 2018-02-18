@@ -20,19 +20,19 @@ std::streampos fileSize(std::ifstream &file_stream) {
 }
 
 int main() {
-    std::string filename = "test.ch8";
+    const std::string filename = "test.ch8";
 
     // Open rom file.
     std::ifstream rom_file(filename, std::ios::binary);
 
-    if (!rom_file.is_open()) {
+    if (!rom_file.is_open() && rom_file.good()) {
         std::cout << "Failed to open " << filename << std::endl;
         return true;
     }
 
     std::cout << "Opened rom file: " << filename << std::endl;
 
-    auto rom_size = fileSize(rom_file);
+    const auto rom_size = fileSize(rom_file);
     if (rom_size > Memory::romMaxSize) {
         std::cout << "Rom size: " << rom_size
                   << " exceed maximum size of " << Memory::romMaxSize << " bytes."
@@ -42,7 +42,7 @@ int main() {
 
     // Init system
     auto *chip8 = new Chip8;
-    chip8->memory->loadRom(rom_file);
+    chip8->loadRom(rom_file);
 
     // Main loop
     while (chip8->isRunning) {

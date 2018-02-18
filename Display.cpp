@@ -11,7 +11,7 @@ Display::Display() {
 }
 
 void Display::clear() {
-    for (std::byte &pixel_block: this->bitmap) {
+    for (std::byte &pixel_block: this->_bitmap) {
         pixel_block = (std::byte) 0;
     }
 }

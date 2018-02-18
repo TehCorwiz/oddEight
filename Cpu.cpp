@@ -6,21 +6,21 @@
 #include "Cpu.h"
 
 Cpu::Cpu(Memory *memory, IO *io, Display *display) {
-    this->memory = memory;
-    this->io = io;
-    this->display = display;
+    this->_memory = memory;
+    this->_io = io;
+    this->_display = display;
 
     std::cout << "CPU initialized." << std::endl;
 }
 
 void Cpu::reset() {
-    this->I = 0;
-    this->PC = 0;
+    this->_I = 0;
+    this->_PC = 0;
 
-    for (std::byte &v_register: this->V) {
+    for (std::byte &v_register: this->_V) {
         v_register = (std::byte) 0;
     }
 
-    this->delay_timer = (std::byte) 0;
-    this->sound_timer = (std::byte) 0;
+    this->_delay_timer = (std::byte) 0;
+    this->_sound_timer = (std::byte) 0;
 }

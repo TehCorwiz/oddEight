@@ -8,14 +8,21 @@
 
 Chip8::Chip8() {
 
-    this->memory = new Memory;
-    this->io = new IO;
-    this->display = new Display;
-    this->cpu = new Cpu(memory, io, display);
+    this->_memory = new Memory;
+    this->_io = new IO;
+    this->_display = new Display;
+    this->_cpu = new Cpu(_memory, _io, _display);
 
     this->steps = 0;
 
     std::cout << "System initialized." << std::endl;
+}
+
+void Chip8::loadRom(std::ifstream &rom) {
+    char rom_data[Memory::romMaxSize];
+    rom.readsome(rom_data, Memory::romMaxSize);
+
+    this->_memory->writeBytes(rom_data, Memory::romMaxSize, Memory::romStartAddress);
 }
 
 void Chip8::runStep() {
@@ -26,7 +33,7 @@ void Chip8::runStep() {
 }
 
 void Chip8::reset() {
-    this->cpu->reset();
-    this->memory->clear();
-    this->display->clear();
+    this->_cpu->reset();
+    this->_memory->clear();
+    this->_display->clear();
 }

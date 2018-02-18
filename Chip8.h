@@ -21,14 +21,17 @@ public:
 
     void runStep();
 
-    Memory *memory;
-    Cpu *cpu;
-    IO *io;
-    Display *display;
+    void loadRom(std::ifstream &rom_file);
 
     double steps;
 
     bool isRunning = true;
+
+private:
+    Memory *_memory;
+    Cpu *_cpu;
+    IO *_io;
+    Display *_display;
 };
 
 
