@@ -8,10 +8,10 @@
 
 Chip8::Chip8() {
 
-    this->display = new Display;
     this->memory = new Memory;
     this->io = new IO;
-    this->cpu = new Cpu;
+    this->display = new Display;
+    this->cpu = new Cpu(memory, io, display);
 
     this->steps = 0;
 

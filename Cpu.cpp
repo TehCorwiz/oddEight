@@ -5,7 +5,11 @@
 #include <iostream>
 #include "Cpu.h"
 
-Cpu::Cpu() {
+Cpu::Cpu(Memory *memory, IO *io, Display *display) {
+    this->memory = memory;
+    this->io = io;
+    this->display = display;
+
     std::cout << "CPU initialized." << std::endl;
 }
 

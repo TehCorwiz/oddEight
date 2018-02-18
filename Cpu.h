@@ -7,14 +7,22 @@
 
 
 #include <cstddef>
+#include "Memory.h"
+#include "IO.h"
+#include "Display.h"
 
 class Cpu {
 public:
-    Cpu();
+    Cpu(Memory *memory, IO *io, Display *display);
 
     void reset();
 
 private:
+    /* Referecnces */
+    Memory *memory;
+    IO *io;
+    Display *display;
+
     /* Registers*/
     unsigned short I;   // Index (16-bit)
     unsigned short PC;  // Program Counter (16-bit)
