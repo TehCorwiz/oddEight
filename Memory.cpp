@@ -8,7 +8,7 @@
 #include "Memory.h"
 
 Memory::Memory() {
-    std::cout << "Memory initialized.\r\n";
+    std::cout << "Memory initialized." << std::endl;
 }
 
 std::byte Memory::readByte(int address) {

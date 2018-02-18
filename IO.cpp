@@ -6,5 +6,5 @@
 #include "IO.h"
 
 IO::IO() {
-    std::cout << "IO initialized.\r\n";
+    std::cout << "IO initialized." << std::endl;
 }
