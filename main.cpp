@@ -18,7 +18,7 @@ int main() {
     std::cout << "Opened rom file: " << filename << "\r\n";
 
     // Init system
-    auto chip8 = new Chip8;
+    auto *chip8 = new Chip8;
     chip8->loadRom(rom_file);
 
     // Main loop
