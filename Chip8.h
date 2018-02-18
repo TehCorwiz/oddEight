@@ -23,13 +23,14 @@ public:
 
     void loadRom(std::ifstream& rom);
 
-    bool isStopped();
-
     Memory *memory;
     Cpu *cpu;
     IO *io;
     Display *display;
+
     double steps;
+
+    bool isRunning = false;
 };
 
 

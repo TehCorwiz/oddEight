@@ -23,10 +23,7 @@ void Chip8::loadRom(std::ifstream &rom) {
 
 void Chip8::runStep() {
     // TODO
-}
-
-bool Chip8::isStopped() {
-    return true;
+    this->steps++;
 }
 
 void Chip8::reset() {
