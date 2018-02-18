@@ -18,9 +18,8 @@ public:
 
     void clear();
 
-    void dump();
 private:
-    std::byte memory[4096] = {(std::byte)1};
+    std::byte memory[4096] = {(std::byte)0};
 };
 
 

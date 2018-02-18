@@ -9,8 +9,6 @@
 
 Memory::Memory() {
     std::cout << "Memory initialized.\r\n";
-
-    this->dump();
 }
 
 std::byte Memory::readByte() {
@@ -26,15 +24,5 @@ void Memory::clear() {
         cell = (std::byte) 0;
     }
 
-    std::cout << "Memory cleared.\r\n";
-
-    this->dump();
-}
-
-void Memory::dump() {
-    std::string output;
-
-    output.append("0:" + std::to_string((char) this->memory[0]) + "\r\n");
-
-    std::cout << output;
+    std::cout << "Memory cleared." << std::endl;
 }

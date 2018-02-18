@@ -30,7 +30,7 @@ public:
 
     double steps;
 
-    bool isRunning = false;
+    bool isRunning = true;
 };
 
 

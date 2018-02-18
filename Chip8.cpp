@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <unistd.h>
+
 #include "Chip8.h"
 
 Chip8::Chip8() {
@@ -14,7 +16,7 @@ Chip8::Chip8() {
 
     this->steps = 0;
 
-    std::cout << "System initialized.\r\n";
+    std::cout << "System initialized." << std::endl;
 }
 
 void Chip8::loadRom(std::ifstream &rom) {
@@ -23,7 +25,9 @@ void Chip8::loadRom(std::ifstream &rom) {
 
 void Chip8::runStep() {
     // TODO
+
     this->steps++;
+    if (this->steps >= 1000) this->isRunning = false;
 }
 
 void Chip8::reset() {

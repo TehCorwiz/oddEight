@@ -12,7 +12,7 @@ class Display {
 public:
     Display();
 
-    std::byte bitmap[64 * 32];
+    std::byte bitmap[64 * 32] = {(std::byte) 0};
     double frames;
 };
 

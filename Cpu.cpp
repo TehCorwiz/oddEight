@@ -6,7 +6,7 @@
 #include "Cpu.h"
 
 Cpu::Cpu() {
-    std::cout << "CPU initialized.\r\n";
+    std::cout << "CPU initialized." << std::endl;
     this->reset();
 }
 

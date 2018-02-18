@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <unistd.h>
 
 #include "Chip8.h"
 
@@ -12,11 +11,11 @@ int main() {
     std::ifstream rom_file(filename, std::ios::binary);
 
     if (!rom_file.is_open()) {
-        std::cout << "Failed to open " << filename << "\r\n";
+        std::cout << "Failed to open " << filename << std::endl;
         return 1;
     }
 
-    std::cout << "Opened rom file: " << filename << "\r\n";
+    std::cout << "Opened rom file: " << filename << std::endl;
 
     // Init system
     auto *chip8 = new Chip8;

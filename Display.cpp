@@ -6,5 +6,5 @@
 #include "Display.h"
 
 Display::Display() {
-    std::cout << "Display initialized.\r\n";
+    std::cout << "Display initialized." << std::endl;
 }
