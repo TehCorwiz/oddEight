@@ -21,8 +21,6 @@ public:
 
     void runStep();
 
-    void loadRom(std::ifstream& rom);
-
     Memory *memory;
     Cpu *cpu;
     IO *io;

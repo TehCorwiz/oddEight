@@ -3,8 +3,15 @@
 //
 
 #include <iostream>
+
 #include "Display.h"
 
 Display::Display() {
     std::cout << "Display initialized." << std::endl;
+}
+
+void Display::clear() {
+    for (std::byte &pixel_block: this->bitmap) {
+        pixel_block = (std::byte) 0;
+    }
 }

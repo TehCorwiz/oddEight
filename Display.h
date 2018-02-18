@@ -12,6 +12,8 @@ class Display {
 public:
     Display();
 
+    void clear();
+
     std::byte bitmap[64 * 32] = {(std::byte) 0};
     double frames;
 };

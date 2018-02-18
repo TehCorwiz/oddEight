@@ -7,9 +7,16 @@
 
 Cpu::Cpu() {
     std::cout << "CPU initialized." << std::endl;
-    this->reset();
 }
 
 void Cpu::reset() {
-    // TODO
+    this->I = 0;
+    this->PC = 0;
+
+    for (std::byte &v_register: this->V) {
+        v_register = (std::byte) 0;
+    }
+
+    this->delay_timer = (std::byte) 0;
+    this->sound_timer = (std::byte) 0;
 }

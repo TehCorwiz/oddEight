@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <unistd.h>
 
 #include "Chip8.h"
 
@@ -19,10 +18,6 @@ Chip8::Chip8() {
     std::cout << "System initialized." << std::endl;
 }
 
-void Chip8::loadRom(std::ifstream &rom) {
-    // TODO
-}
-
 void Chip8::runStep() {
     // TODO
 
@@ -31,6 +26,7 @@ void Chip8::runStep() {
 }
 
 void Chip8::reset() {
-    // TODO
+    this->cpu->reset();
     this->memory->clear();
+    this->display->clear();
 }

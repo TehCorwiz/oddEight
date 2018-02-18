@@ -6,9 +6,7 @@
 #define EIGHTEIGHT_CPU_H
 
 
-#include "Display.h"
-#include "Memory.h"
-#include "IO.h"
+#include <cstddef>
 
 class Cpu {
 public:
