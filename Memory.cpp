@@ -25,7 +25,7 @@ void Memory::writeBytes(const char data[], const short data_size, const short st
         this->_map[start_address + i] = (std::byte) data[i];
     }
 
-    std::cout << "Bytes written: " << data_size << "." << std::endl;
+    std::cout << data_size << " bytes written to memory at address " << start_address << std::endl;
 }
 
 void Memory::clear() {

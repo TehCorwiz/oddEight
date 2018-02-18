@@ -23,4 +23,6 @@ void Cpu::reset() {
 
     this->_delay_timer = (std::byte) 0;
     this->_sound_timer = (std::byte) 0;
+
+    std::cout << "CPU reset." << std::endl;
 }

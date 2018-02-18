@@ -14,4 +14,6 @@ void Display::clear() {
     for (std::byte &pixel_block: this->_bitmap) {
         pixel_block = (std::byte) 0;
     }
+
+    std::cout << "Display cleared." << std::endl;
 }
