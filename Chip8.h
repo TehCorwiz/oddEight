@@ -21,7 +21,7 @@ public:
 
     void runStep();
 
-    bool loadRom(const std::string filename);
+    bool loadRom(std::string filename);
 
     bool loadRom(std::ifstream &rom_file);
 

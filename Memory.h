@@ -10,6 +10,7 @@
 
 class Memory {
 public:
+    const static short memorySize = 4096;
     const static short romStartAddress = 0x0200;
     const static short romMaxSize = 4096 - 512 - 256 - 96;
 
@@ -24,7 +25,7 @@ public:
     void clear();
 
 private:
-    std::byte _map[4096] = {(std::byte) 0};
+    std::byte _map[Memory::memorySize] = {(std::byte) 0};
 };
 
 
