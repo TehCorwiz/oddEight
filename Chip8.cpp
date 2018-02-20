@@ -19,7 +19,6 @@ Chip8::Chip8() {
 }
 
 std::streampos Chip8::_fileSize(std::ifstream &file_stream) {
-
     std::streampos file_size = 0;
 
     file_size = file_stream.tellg();
@@ -30,11 +29,22 @@ std::streampos Chip8::_fileSize(std::ifstream &file_stream) {
     return file_size;
 }
 
-bool Chip8::loadRom(std::ifstream &rom) {
+bool Chip8::loadRom(std::ifstream &rom_file) {
     char rom_data[Memory::romMaxSize];
-    rom.readsome(rom_data, Memory::romMaxSize);
 
-    this->_memory->writeBytes(rom_data, Memory::romMaxSize, Memory::romStartAddress);
+    const auto rom_size = Chip8::_fileSize(rom_file);
+    if (rom_size > Memory::romMaxSize) {
+        std::cout << "Rom size: " << rom_size
+                  << " exceed maximum size of " << Memory::romMaxSize << " bytes."
+                  << std::endl;
+        return true;
+    }
+
+    // This integer coercion from std::streamsize (long long) to short should be safe in this context
+    // because we're limiting the file size to less than 4KB.
+    auto size_read = (short)rom_file.readsome(rom_data, Memory::romMaxSize);
+
+    this->_memory->writeBytes(rom_data, size_read, Memory::romStartAddress);
 
     return false;
 }
@@ -48,14 +58,6 @@ bool Chip8::loadRom(const std::string filename) {
     }
 
     std::cout << "Opened rom file: " << filename << std::endl;
-
-    const auto rom_size = Chip8::_fileSize(rom_file);
-    if (rom_size > Memory::romMaxSize) {
-        std::cout << "Rom size: " << rom_size
-                  << " exceed maximum size of " << Memory::romMaxSize << " bytes."
-                  << std::endl;
-        return true;
-    }
 
     return this->loadRom(rom_file);
 }
