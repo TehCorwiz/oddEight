@@ -13,6 +13,9 @@ Memory::Memory() {
 
 std::byte Memory::readByte(const int address) {
     // TODO: This is certainly more nuanced, but this will suffice while I fiddle with the language.
+    if (address > Memory::memorySize)
+        throw std::range_error("Attempted to read beyond memory bounds.");
+
     return this->_map[address];
 }
 
