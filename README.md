@@ -17,7 +17,7 @@ Resources used in this project:
 * http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
 * http://www.stroustrup.com/Programming/PPP-style.pdf
 * https://isocpp.org/faq
-* And probably a bunch more. I'm nto counting, but I'll update this with the resources I most used and rank them in terms of time spent reading them.
+* And probably a bunch more. I'm not counting, but I'll update this with the resources I most used and rank them in terms of time spent reading them.
 
 ### Back story
 
