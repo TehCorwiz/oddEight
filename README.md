@@ -5,12 +5,14 @@
 ### Goals
 
 This is a learning project. The goals are:
+
 * Develop a playable Chip8 interpreter.
 * To expand knowledge of emulator design.
 * To learn modern C++ (11 - 17)
 * Have fun!
 
 Resources used in this project:
+
 * http://en.cppreference.com/w/cpp/language
 * http://www.emulator101.com/welcome.html
 * https://en.wikipedia.org/wiki/CHIP-8
