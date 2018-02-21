@@ -2,8 +2,8 @@
 // Created by Corwin on 2018-02-17.
 //
 
-#ifndef EIGHTEIGHT_CPU_H
-#define EIGHTEIGHT_CPU_H
+#ifndef ODDEIGHT_CPU_H
+#define ODDEIGHT_CPU_H
 
 
 #include <cstddef>
@@ -35,4 +35,4 @@ private:
 };
 
 
-#endif //EIGHTEIGHT_CPU_H
+#endif //ODDEIGHT_CPU_H

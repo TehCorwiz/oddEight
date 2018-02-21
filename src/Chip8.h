@@ -2,8 +2,8 @@
 // Created by Corwin on 2018-02-17.
 //
 
-#ifndef EIGHTEIGHT_SYSTEM_H
-#define EIGHTEIGHT_SYSTEM_H
+#ifndef ODDEIGHT_SYSTEM_H
+#define ODDEIGHT_SYSTEM_H
 
 
 #include <fstream>
@@ -41,4 +41,4 @@ private:
 };
 
 
-#endif //EIGHTEIGHT_SYSTEM_H
+#endif //ODDEIGHT_SYSTEM_H

@@ -1,4 +1,4 @@
-# eighteight
+# oddEight
 
 ## Introduction
 

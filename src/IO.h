@@ -2,8 +2,8 @@
 // Created by Corwin on 2018-02-17.
 //
 
-#ifndef EIGHTEIGHT_IO_H
-#define EIGHTEIGHT_IO_H
+#ifndef ODDEIGHT_IO_H
+#define ODDEIGHT_IO_H
 
 
 class IO {
@@ -12,4 +12,4 @@ public:
 };
 
 
-#endif //EIGHTEIGHT_IO_H
+#endif //ODDEIGHT_IO_H

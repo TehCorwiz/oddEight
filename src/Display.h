@@ -2,8 +2,8 @@
 // Created by Corwin on 2018-02-17.
 //
 
-#ifndef EIGHTEIGHT_DISPLAY_H
-#define EIGHTEIGHT_DISPLAY_H
+#ifndef ODDEIGHT_DISPLAY_H
+#define ODDEIGHT_DISPLAY_H
 
 
 #include <cstddef>
@@ -21,4 +21,4 @@ private:
 };
 
 
-#endif //EIGHTEIGHT_DISPLAY_H
+#endif //ODDEIGHT_DISPLAY_H

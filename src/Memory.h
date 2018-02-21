@@ -2,8 +2,8 @@
 // Created by Corwin on 2018-02-17.
 //
 
-#ifndef EIGHTEIGHT_MEMORY_H
-#define EIGHTEIGHT_MEMORY_H
+#ifndef ODDEIGHT_MEMORY_H
+#define ODDEIGHT_MEMORY_H
 
 
 #include <cstddef>
@@ -29,4 +29,4 @@ private:
 };
 
 
-#endif //EIGHTEIGHT_MEMORY_H
+#endif //ODDEIGHT_MEMORY_H
