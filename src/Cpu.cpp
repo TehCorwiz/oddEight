@@ -82,7 +82,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             break;
         case (0x3000):
             //3xkk: Skip next instruction if Vx = kk.
-            if (this->_V[x] == kk) this->_PC += 2;
+            if (this->_V[x] == kk) this->_PC += 2; // Overflow check below.
 
             break;
         case (0x6000):
@@ -263,6 +263,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
     }
 
     this->_PC += 2;
+    this->_PC &= 0x0FFF; // Address range is 4095 = 0x0FFF. This limits to valid memory range.
 }
 
 const uint32_t Cpu::cycleCount() const {

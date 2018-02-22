@@ -7,7 +7,7 @@
 #include "Chip8.h"
 
 int main() {
-    const std::string filename = "Maze (alt) [David Winter, 199x].ch8";
+    const std::string filename = "Pong (1 player).ch8";
 
     try {
         auto *chip8 = new Chip8;
