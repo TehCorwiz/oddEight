@@ -74,8 +74,6 @@ void Chip8::run() {
     // Main loop
     while (this->_isRunning && !this->_cpu->error()) {
         this->_cpu->runCycle();
-
-        if (this->_cpu->cycleCount() >= 1000) this->_isRunning = false;
     }
 }
 

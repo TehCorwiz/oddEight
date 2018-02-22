@@ -16,6 +16,9 @@ public:
     constexpr static uint16_t romStartAddress = 0x0200;
     constexpr static uint16_t romMaxSize = 4096 - 512 - 256 - 96;
 
+
+    constexpr static uint16_t fontsetStartaddress = 0x0050;
+
     Memory();
 
     uint8_t readByte(uint16_t address);
@@ -28,13 +31,17 @@ public:
 
     void writeBytes(const uint8_t *data, uint16_t data_size, uint16_t start_address);
 
+    void pushStack(uint16_t sp, uint8_t value);
+
+    uint8_t popStack(uint16_t sp);
+
     void reset();
 
 private:
     uint8_t _map[Memory::memorySize] = {0};
     uint8_t _stack[Memory::stackSize] = {0};
 
-    constexpr static uint8_t _fontSet[80] =
+    constexpr static uint8_t _fontset[80] =
             {
                     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
                     0x20, 0x60, 0x20, 0x20, 0x70, // 1

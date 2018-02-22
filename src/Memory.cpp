@@ -68,5 +68,13 @@ void Memory::reset() {
 
     // Load fontset at address range 0x00 => 0x50
     std::cout << "Memory: Loading fontset..." << std::endl;
-    writeBytes(this->_fontSet, 80, 0x00);
+    writeBytes(this->_fontset, 80, Memory::fontsetStartaddress);
+}
+
+uint8_t Memory::popStack(uint16_t sp) {
+    return this->_stack[sp];
+}
+
+void Memory::pushStack(const uint16_t sp, const uint8_t value) {
+    this->_stack[sp] = value;
 }

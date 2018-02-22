@@ -10,14 +10,18 @@
 
 class Display {
 public:
+    constexpr static uint8_t displayWidth = 64;
+    constexpr static uint8_t displayHeight = 32;
+
     Display();
 
     void clear();
 
-    uint32_t frames;
+    uint8_t drawSprite(const uint8_t sprite[], uint8_t height, uint8_t x, uint8_t y);
 
 private:
-    uint8_t _bitmap[64 * 32] = {0};
+    uint8_t _bitmap[displayWidth * displayHeight] = {0};
+    uint32_t _frameCount = 0;
 };
 
 

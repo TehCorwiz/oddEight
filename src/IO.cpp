@@ -9,3 +9,7 @@
 IO::IO() {
     std::cout << "IO initialized." << std::endl;
 }
+
+bool IO::readKey(uint8_t key) {
+    return this->_keypad[key];
+}

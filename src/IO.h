@@ -12,8 +12,10 @@ class IO {
 public:
     IO();
 
+    bool readKey(uint8_t key);
+
 private:
-    uint8_t _keypad[16] = {0};
+    bool _keypad[16] = {false};
 };
 
 
