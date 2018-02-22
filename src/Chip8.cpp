@@ -7,13 +7,10 @@
 #include "Chip8.h"
 
 Chip8::Chip8() {
-
     this->_memory = new Memory;
     this->_io = new IO;
     this->_display = new Display;
-    this->_cpu = new Cpu(_memory, _io, _display);
-
-    this->steps = 0;
+    this->_cpu = new Cpu(this->_memory, this->_io, this->_display);
 
     std::cout << "System initialized." << std::endl;
 }
@@ -58,14 +55,7 @@ bool Chip8::loadRom(const std::string filename) {
 
     std::cout << "Opened rom file: " << filename << std::endl;
 
-    return this->loadRom(rom_file);
-}
-
-void Chip8::runStep() {
-    // TODO
-
-    this->steps++;
-    if (this->steps >= 1000) this->_isRunning = false;
+    return loadRom(rom_file);
 }
 
 void Chip8::reset() {
@@ -78,17 +68,15 @@ void Chip8::reset() {
     std::cout << "Chip8 reset." << std::endl;
 }
 
-bool Chip8::run() {
+void Chip8::run() {
     this->_isRunning = true;
 
     // Main loop
-    while (this->_isRunning) {
-        this->runStep();
+    while (this->_isRunning && !this->_cpu->error()) {
+        this->_cpu->runCycle();
+
+        if (this->_cpu->cycleCount() >= 1000) this->_isRunning = false;
     }
-
-    this->reset();
-
-    return false;
 }
 
 const bool Chip8::isRunning() const {

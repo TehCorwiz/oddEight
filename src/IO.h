@@ -6,7 +6,7 @@
 #define ODDEIGHT_IO_H
 
 
-#include <cstddef>
+#include <cstdint>
 
 class IO {
 public:

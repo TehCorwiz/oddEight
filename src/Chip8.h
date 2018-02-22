@@ -7,6 +7,7 @@
 
 
 #include <fstream>
+#include <cstdint>
 
 #include "Memory.h"
 #include "Cpu.h"
@@ -19,26 +20,25 @@ public:
 
     void reset();
 
-    void runStep();
-
     bool loadRom(std::string filename);
 
     bool loadRom(std::ifstream &rom_file);
 
-    bool run();
-
-    double steps;
+    void run();
 
     const bool isRunning() const;
 
 private:
+    /* System components */
     Memory *_memory;
     Cpu *_cpu;
     IO *_io;
     Display *_display;
 
+    /* Helper */
     static std::streampos _fileSize(std::ifstream &file_stream);
 
+    /* System state */
     bool _isRunning = false;
 };
 

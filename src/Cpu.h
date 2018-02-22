@@ -6,8 +6,8 @@
 #define ODDEIGHT_CPU_H
 
 
-#include <cstddef>
-#include <array>
+#include <cstdint>
+
 #include "Memory.h"
 #include "IO.h"
 #include "Display.h"
@@ -18,6 +18,13 @@ public:
 
     void reset();
 
+    void runCycle();
+
+    const uint32_t cycleCount() const;
+
+    const bool error() const;
+
+    constexpr static uint16_t ExecutionStartAddress = 0x200;
 private:
     /* Referecnces */
     Memory *_memory;
@@ -26,7 +33,7 @@ private:
 
     /* Registers*/
     uint16_t _I = 0;   // Index (16-bit)
-    uint16_t _PC = 0x200;  // Program Counter (16-bit). Execution begins at address 0x200
+    uint16_t _PC = ExecutionStartAddress;  // Program Counter (16-bit). Execution begins at address 0x200
     uint16_t _SP = 0;  // Stack Pointer (16-bit)
 
     uint8_t _V[16] = {0}; // V0 - VF (VF doubles as carry flag for some operations)
@@ -34,6 +41,13 @@ private:
     /* Timers */
     uint8_t _delayTimer = 0;
     uint8_t _soundTimer = 0;
+
+    /* actions */
+    void _executeOpcode(uint16_t opcode);
+
+    /* Stats */
+    uint32_t _cycleCount = 0;
+    bool _error = false;
 };
 
 

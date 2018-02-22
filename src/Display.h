@@ -6,7 +6,7 @@
 #define ODDEIGHT_DISPLAY_H
 
 
-#include <cstddef>
+#include <cstdint>
 
 class Display {
 public:

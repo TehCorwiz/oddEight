@@ -6,8 +6,7 @@
 #define ODDEIGHT_MEMORY_H
 
 
-#include <cstddef>
-#include <array>
+#include <cstdint>
 
 class Memory {
 public:
@@ -24,6 +23,8 @@ public:
     uint16_t readWord(uint16_t address);
 
     void writeByte(uint8_t value, uint16_t address);
+
+    void writeWord(uint16_t value, uint16_t address);
 
     void writeBytes(const uint8_t *data, uint16_t data_size, uint16_t start_address);
 

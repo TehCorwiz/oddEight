@@ -2,13 +2,12 @@
 // Created by Corwin on 2018-02-17.
 //
 
-#include <fstream>
 #include <iostream>
 
 #include "Chip8.h"
 
 int main() {
-    const std::string filename = "test.ch8";
+    const std::string filename = "Pong (1 player).ch8";
 
     try {
         auto *chip8 = new Chip8;
