@@ -79,6 +79,8 @@ void Chip8::reset() {
 }
 
 bool Chip8::run() {
+    this->_isRunning = true;
+
     // Main loop
     while (this->_isRunning) {
         this->runStep();
