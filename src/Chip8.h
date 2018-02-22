@@ -29,7 +29,7 @@ public:
 
     double steps;
 
-    bool isRunning = true;
+    const bool isRunning() const;
 
 private:
     Memory *_memory;
@@ -38,6 +38,8 @@ private:
     Display *_display;
 
     static std::streampos _fileSize(std::ifstream &file_stream);
+
+    bool _isRunning = false;
 };
 
 

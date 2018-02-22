@@ -65,7 +65,7 @@ void Chip8::runStep() {
     // TODO
 
     this->steps++;
-    if (this->steps >= 1000) this->isRunning = false;
+    if (this->steps >= 1000) this->_isRunning = false;
 }
 
 void Chip8::reset() {
@@ -80,11 +80,15 @@ void Chip8::reset() {
 
 bool Chip8::run() {
     // Main loop
-    while (this->isRunning) {
+    while (this->_isRunning) {
         this->runStep();
     }
 
     this->reset();
 
     return false;
+}
+
+const bool Chip8::isRunning() const {
+    return this->_isRunning;
 }
