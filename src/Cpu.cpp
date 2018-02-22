@@ -152,6 +152,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+
                     break;
             }
 
@@ -184,8 +185,23 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
             break;
         case (0xE000):
-            //Ex9E: Skip next instruction if key with the value of Vx is pressed.
-            if (this->_io->readKey(this->_V[x])) this->_PC += 2;
+            switch (kk) {
+                case (0x009E):
+                    //Ex9E: Skip next instruction if key with the value of Vx is pressed.
+                    if (this->_io->readKey(this->_V[x])) this->_PC += 2;
+
+                    break;
+                case (0x00A1):
+                    //ExA1: Skip next instruction if key with the value of Vx is not pressed.
+                    if (!this->_io->readKey(this->_V[x])) this->_PC += 2;
+
+                    break;
+                default:
+                    std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
+                              << std::hex << std::uppercase << opcode << std::endl;
+
+                    break;
+            }
 
             break;
         case (0xF000): {
