@@ -23,7 +23,7 @@ uint16_t Memory::readWord(const uint16_t address) {
     if ((address + 1) > Memory::memorySize)
         throw std::range_error("Attempted to read beyond memory bounds.");
 
-    return (unsigned short) (this->_map[address]) << 8 & (unsigned short) (this->_map[address + 1]);
+    return (unsigned short) (this->_map[address]) << 8 | (unsigned short) (this->_map[address + 1]);
 }
 
 void Memory::writeByte(const uint8_t value, const uint16_t address) {
