@@ -11,8 +11,8 @@ Display::Display() {
 }
 
 void Display::clear() {
-    for (std::byte &pixel_block: this->_bitmap) {
-        pixel_block = (std::byte) 0;
+    for (uint8_t &pixel_block: this->_bitmap) {
+        pixel_block = 0;
     }
 
     std::cout << "Display cleared." << std::endl;

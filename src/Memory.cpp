@@ -8,40 +8,54 @@
 #include "Memory.h"
 
 Memory::Memory() {
+    this->reset();
     std::cout << "Memory initialized." << std::endl;
 }
 
-std::byte Memory::readByte(const int address) {
-    // TODO: This is certainly more nuanced, but this will suffice while I fiddle with the language.
+uint8_t Memory::readByte(const uint16_t address) {
     if (address > Memory::memorySize)
         throw std::range_error("Attempted to read beyond memory bounds.");
 
     return this->_map[address];
 }
 
-void Memory::writeByte(const std::byte value, const short address) {
+uint16_t Memory::readWord(const uint16_t address) {
+    if ((address + 1) > Memory::memorySize)
+        throw std::range_error("Attempted to read beyond memory bounds.");
+
+    return (unsigned short) (this->_map[address]) << 8 & (unsigned short) (this->_map[address + 1]);
+}
+
+void Memory::writeByte(const uint8_t value, const uint16_t address) {
     if (address > Memory::memorySize)
         throw std::range_error("Attempted to write beyond memory bounds.");
 
     this->_map[address] = value;
 }
 
-void Memory::writeBytes(const char data[], const short data_size, const short start_address) {
-    // TODO: Better bounds checking. Make sure that the data doesn't conflict with reserved ranges.
+void Memory::writeBytes(const uint8_t data[], const uint16_t data_size, const uint16_t start_address) {
     if ((start_address + data_size) > Memory::memorySize)
         throw std::range_error("Attempted to write beyond memory bounds.");
 
     for (int i = 0; i < data_size; i++) {
-        this->_map[start_address + i] = (std::byte) data[i];
+        this->_map[start_address + i] = data[i];
     }
 
     std::cout << data_size << " bytes written to memory at address " << start_address << std::endl;
 }
 
-void Memory::clear() {
-    for (std::byte &cell: this->_map) {
-        cell = (std::byte) 0;
+void Memory::reset() {
+    for (uint8_t &cell: this->_map) {
+        cell = 0;
+    }
+
+    for (uint8_t &cell: this->_stack) {
+        cell = 0;
     }
 
     std::cout << "Memory cleared." << std::endl;
+
+    // Load fontset at address range 0x00 => 0x50
+    std::cout << "Memory: Loading fontset..." << std::endl;
+    this->writeBytes(this->_fontSet, 80, 0x00);
 }

@@ -17,12 +17,12 @@ void Cpu::reset() {
     this->_I = 0;
     this->_PC = 0;
 
-    for (std::byte &v_register: this->_V) {
-        v_register = (std::byte) 0;
+    for (uint8_t &v_register: this->_V) {
+        v_register = 0;
     }
 
-    this->_delay_timer = (std::byte) 0;
-    this->_sound_timer = (std::byte) 0;
+    this->_delayTimer = 0;
+    this->_soundTimer = 0;
 
     std::cout << "CPU reset." << std::endl;
 }

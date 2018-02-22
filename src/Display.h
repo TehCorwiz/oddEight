@@ -14,10 +14,10 @@ public:
 
     void clear();
 
-    double frames;
+    uint32_t frames;
 
 private:
-    std::byte _bitmap[64 * 32] = {(std::byte) 0};
+    uint8_t _bitmap[64 * 32] = {0};
 };
 
 

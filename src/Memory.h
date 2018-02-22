@@ -7,25 +7,51 @@
 
 
 #include <cstddef>
+#include <array>
 
 class Memory {
 public:
-    const static short memorySize = 4096;
-    const static short romStartAddress = 0x0200;
-    const static short romMaxSize = 4096 - 512 - 256 - 96;
+    constexpr static uint16_t memorySize = 4096;
+    constexpr static uint16_t stackSize = 16;
+
+    constexpr static uint16_t romStartAddress = 0x0200;
+    constexpr static uint16_t romMaxSize = 4096 - 512 - 256 - 96;
 
     Memory();
 
-    std::byte readByte(int address);
+    uint8_t readByte(uint16_t address);
 
-    void writeByte(std::byte byte, short address);
+    uint16_t readWord(uint16_t address);
 
-    void writeBytes(const char data[], short data_size, short start_address);
+    void writeByte(uint8_t value, uint16_t address);
 
-    void clear();
+    void writeBytes(const uint8_t *data, uint16_t data_size, uint16_t start_address);
+
+    void reset();
 
 private:
-    std::byte _map[Memory::memorySize] = {(std::byte) 0};
+    uint8_t _map[Memory::memorySize] = {0};
+    uint8_t _stack[Memory::stackSize] = {0};
+
+    constexpr static uint8_t _fontSet[80] =
+            {
+                    0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+                    0x20, 0x60, 0x20, 0x20, 0x70, // 1
+                    0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+                    0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+                    0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+                    0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+                    0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+                    0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+                    0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+                    0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+                    0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+                    0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+                    0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+                    0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+                    0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+                    0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+            };
 };
 
 

@@ -39,11 +39,11 @@ bool Chip8::loadRom(std::ifstream &rom_file) {
     }
 
     char rom_data[Memory::romMaxSize];
-    // This integer coercion from std::streamsize (long long) to short should be safe in this context
+    // This integer coercion from std::streamsize (long long) to uint16_t should be safe in this context
     // because we're limiting the file size to less than 4KB.
-    const auto size_read = (short)rom_file.readsome(rom_data, Memory::romMaxSize);
+    const auto size_read = (uint16_t) rom_file.readsome(rom_data, Memory::romMaxSize);
 
-    this->_memory->writeBytes(rom_data, size_read, Memory::romStartAddress);
+    this->_memory->writeBytes((uint8_t *) rom_data, size_read, Memory::romStartAddress);
 
     return false;
 }
@@ -70,7 +70,7 @@ void Chip8::runStep() {
 
 void Chip8::reset() {
     this->_cpu->reset();
-    this->_memory->clear();
+    this->_memory->reset();
     this->_display->clear();
 }
 

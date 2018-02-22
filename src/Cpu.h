@@ -7,6 +7,7 @@
 
 
 #include <cstddef>
+#include <array>
 #include "Memory.h"
 #include "IO.h"
 #include "Display.h"
@@ -24,14 +25,15 @@ private:
     Display *_display;
 
     /* Registers*/
-    unsigned short _I;   // Index (16-bit)
-    unsigned short _PC;  // Program Counter (16-bit)
+    uint16_t _I = 0;   // Index (16-bit)
+    uint16_t _PC = 0x200;  // Program Counter (16-bit). Execution begins at address 0x200
+    uint16_t _SP = 0;  // Stack Pointer (16-bit)
 
-    std::byte _V[16]; // V0 - VF (VF doubles as carry flag for some operations)
+    uint8_t _V[16] = {0}; // V0 - VF (VF doubles as carry flag for some operations)
 
     /* Timers */
-    std::byte _delay_timer;
-    std::byte _sound_timer;
+    uint8_t _delayTimer = 0;
+    uint8_t _soundTimer = 0;
 };
 
 
