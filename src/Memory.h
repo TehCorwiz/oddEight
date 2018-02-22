@@ -18,6 +18,7 @@ public:
 
 
     constexpr static uint16_t fontsetStartaddress = 0x0050;
+    constexpr static uint8_t fontHeight = 5;
 
     Memory();
 

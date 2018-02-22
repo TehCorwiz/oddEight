@@ -32,65 +32,72 @@ void Cpu::reset() {
 }
 
 void Cpu::_executeOpcode(uint16_t opcode) {
-    //v_register - So, despite not all opcodes using this nibble in this way it doesn't impose a performance
-    // penalty in our use scenario. Enough DO use it that it's not wasted and it prevents simple bit-shifting errors.
-    auto v_register = (uint8_t) ((opcode & 0x0F00) >> 8);
+    //So, despite not all opcodes using things the same way, this gives us a common naming convention to various
+    // opcode components.
+    const auto x = (uint8_t) ((opcode & 0x0F00) >> 8);
+    const auto y = (uint8_t) ((opcode & 0x00F0) >> 4);
+    const auto n = (uint8_t) (opcode & 0x000F);
+    const auto kk = (uint8_t) (opcode & 0x00FF);
+    const auto nnn = (uint16_t) (opcode & 0x0FFF);
 
     switch (opcode & 0xF000) {
         case (0x0000):
-            switch (opcode & 0x00FF) {
+            switch (kk) {
                 case (0x0000):
                     //0nnn: Jump to a machine code routine at nnn. Not used in emulator.
                     // No machine code in memory space. Essentially NOP.
+
                     break;
                 case (0x00E0):
                     //00E0: Clear the display.
                     this->_display->clear();
+
                     break;
                 case (0x00EE):
                     //00EE: Return from a subroutine.
                     this->_PC = this->_memory->popStack((uint8_t) (this->_SP >> 8));
                     this->_PC = this->_memory->popStack((uint8_t) (this->_SP & 0x00FF));
                     this->_SP--;
+
                     break;
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+
                     break;
             }
+
             break;
         case (0x1000):
             //1nnn: Jump to location nnn.
-            this->_PC = (uint16_t) (opcode & 0x0FFF);
+            this->_PC = nnn;
+
             break;
         case (0x2000):
             //2nnn: Call subroutine at nnn
             this->_SP++;
-            this->_memory->pushStack(this->_SP, (uint16_t) ((opcode & 0x0F00) >> 8)); // Most sig byte
-            this->_memory->pushStack(this->_SP, (uint16_t) (opcode & 0x00FF)); // Least sig byte
+            this->_memory->pushStack(this->_SP, x); // Most sig byte
+            this->_memory->pushStack(this->_SP, kk); // Least sig byte
+
             break;
         case (0x3000):
             //3xkk: Skip next instruction if Vx = kk.
+            if (this->_V[x] == kk) this->_PC += 2;
 
-//            std::cout << "V" << v_register << ": " << std::hex << std::uppercase << this->_V[v_register] << std::endl;
-//            std::cout << "kk: " << std::hex << std::uppercase << (uint8_t) (opcode & 0x00FF) << std::endl;
-
-            if (this->_V[v_register] == (uint8_t) (opcode & 0x00FF)) this->_PC += 2;
             break;
         case (0x6000):
             //6xkk: Set Vx = kk.
-            this->_V[v_register] = (uint8_t) ((opcode & 0x00FF));
+            this->_V[x] = kk;
+
             break;
         case (0x7000):
             //7xkk: Set Vx = Vx + kk.
             // TODO: carry flag?
-            this->_V[v_register] += (uint8_t) (opcode & 0x00FF);
-            break;
-        case (0x8000): {
-            auto x = (uint8_t) ((opcode & 0x0F00) >> 8);
-            auto y = (uint8_t) ((opcode & 0x00F0) >> 4);
+            this->_V[x] += kk;
 
-            switch (opcode & 0x000F) {
+            break;
+        case (0x8000):
+            switch (n) {
                 case (0x0000):
                     //8xy0: Set Vx = Vy.
                     this->_V[x] = this->_V[y];
@@ -147,11 +154,12 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                               << std::hex << std::uppercase << opcode << std::endl;
                     break;
             }
-        }
+
             break; // End 0x8000 Opcodes
         case (0xA000):
             //Annn: Set I = nnn.
-            this->_I = (uint16_t) (opcode & 0x0FFF);
+            this->_I = nnn;
+
             break;
         case (0xC000): {
             //Cxkk: Set Vx = random byte AND kk.
@@ -161,87 +169,96 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             // Compiler complains about limited randomness in std::rand() (Don't care)
             auto random_value = (uint8_t) (std::rand() & 0xFF);
 
-            this->_V[v_register] = (uint8_t) (random_value & (opcode & 0x00FF));
+            this->_V[x] = (random_value & kk);
         }
             break;
         case (0xD000): {
             //Dxyn: Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
-            const uint8_t x = this->_V[(opcode & 0x0F00) >> 8];
-            const uint8_t y = this->_V[(opcode & 0x00F0) >> 4];
-            const auto height = (uint8_t) (opcode & 0x000F);
-
-            uint8_t sprite[height];
-            for (uint8_t row = 0; row < height; row++) {
+            uint8_t sprite[n];
+            for (uint8_t row = 0; row < n; row++) {
                 sprite[row] = this->_memory->readByte(this->_I + row);
             }
 
-            this->_V[0xF] = this->_display->drawSprite(sprite, height, x, y);
+            this->_V[0xF] = this->_display->drawSprite(sprite, n, this->_V[x], this->_V[y]);
         }
+
             break;
         case (0xE000):
             //Ex9E: Skip next instruction if key with the value of Vx is pressed.
-            if (this->_io->readKey(this->_V[(opcode & 0x0F00) >> 8])) this->_PC += 2;
+            if (this->_io->readKey(this->_V[x])) this->_PC += 2;
+
             break;
         case (0xF000): {
-            switch (opcode & 0x00FF) {
-                case (0x0007):
+            switch (kk) {
+                case (0x07):
                     //Fx07: Set Vx = delay timer value.
-                    this->_V[v_register] = this->_delayTimer;
+                    this->_V[x] = this->_delayTimer;
+
                     break;
-                case (0x000A):
+                case (0x0A):
                     //Fx0A: Wait for a key press, store the value of the key in Vx.
                     // TODO: wait for interrupt? Poll _IO?
                     std::cout << "Unimplemented opcode: 0x" << std::hex << std::uppercase << opcode << std::endl;
+
                     break;
                 case (0x15):
                     //Fx15: Set delay timer = Vx.
-                    this->_delayTimer = this->_V[v_register];
+                    this->_delayTimer = this->_V[x];
+
                     break;
                 case (0x18):
                     //Fx18: Set sound timer = Vx.
-                    this->_soundTimer = this->_V[v_register];
+                    this->_soundTimer = this->_V[x];
+
                     break;
                 case (0x1E):
                     //Fx1E: Set I = I + Vx.
-                    this->_I = (this->_I + this->_V[v_register]);
+                    this->_I = (this->_I + this->_V[x]);
+
                     break;
                 case (0x29):
                     //Fx29: Set I = location of sprite for digit Vx.
-                    // TODO: lookup text sprite.
-                    std::cout << "Unimplemented opcode: 0x" << std::hex << std::uppercase << opcode << std::endl;
+                    this->_I = (Memory::fontsetStartaddress + (this->_V[x] * Memory::fontHeight));
+
                     break;
                 case (0x33):
                     //Fx33: Store BCD representation of Vx in memory locations I, I+1, and I+2.
                     // Hundreds
-                    this->_memory->writeByte((uint8_t) ((this->_V[v_register] / 100) % 10), this->_I);
+                    this->_memory->writeByte((uint8_t) ((this->_V[x] / 100) % 10), this->_I);
                     // Tens
-                    this->_memory->writeByte((uint8_t) ((this->_V[v_register] / 10) % 10), (uint16_t) (this->_I + 1));
+                    this->_memory->writeByte((uint8_t) ((this->_V[x] / 10) % 10), (uint16_t) (this->_I + 1));
                     // Ones
-                    this->_memory->writeByte((uint8_t) ((this->_V[v_register] / 100) % 10), (uint16_t) (this->_I + 2));
+                    this->_memory->writeByte((uint8_t) ((this->_V[x] / 100) % 10), (uint16_t) (this->_I + 2));
+
                     break;
                 case (0x55):
                     //Fx55: Store registers V0 through Vx in memory starting at location I.
-                    for (uint8_t i = 0; i < v_register; i++) {
+                    for (uint8_t i = 0; i < x; i++) {
                         this->_memory->writeByte(this->_V[i], this->_I + i);
                     }
+
                     break;
                 case (0x65):
                     //Fx65: Read registers V0 through Vx from memory starting at location I.
-                    for (uint8_t i = 0; i < v_register; i++) {
+                    for (uint8_t i = 0; i < x; i++) {
                         this->_V[i] = this->_memory->readByte(this->_I + i);
                     }
+
                     break;
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+
                     break;
             }
+
             break; // End 0xF000 opcodes
         }
         default:
             std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                       << std::hex << std::uppercase << opcode << std::endl;
             this->_error = true;
+
             break;
     }
 
