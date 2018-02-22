@@ -69,9 +69,13 @@ void Chip8::runStep() {
 }
 
 void Chip8::reset() {
-    this->_cpu->reset();
-    this->_memory->reset();
+    std::cout << "Chip8: Resetting system..." << std::endl;
+
     this->_display->clear();
+    this->_memory->reset();
+    this->_cpu->reset();
+
+    std::cout << "Chip8 reset." << std::endl;
 }
 
 bool Chip8::run() {
