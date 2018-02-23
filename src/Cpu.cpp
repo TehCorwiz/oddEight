@@ -46,11 +46,13 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 case (0x0000):
                     //0nnn: Jump to a machine code routine at nnn. Not used in emulator.
                     // No machine code in memory space. Essentially NOP.
+                    this->_PC += 2;
 
                     break;
                 case (0x00E0):
                     //00E0: Clear the display.
                     this->_display->clear();
+                    this->_PC += 2;
 
                     break;
                 case (0x00EE):
@@ -62,6 +64,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+                    this->_error = true;
 
                     break;
             }
@@ -82,27 +85,32 @@ void Cpu::_executeOpcode(uint16_t opcode) {
         case (0x3000):
             //3xkk: Skip next instruction if Vx = kk.
             if (this->_V[x] == kk) this->_PC += 2; // Overflow check below.
+            this->_PC += 2;
 
             break;
         case (0x4000):
             //4xkk: Skip next instruction if Vx != kk.
             if (this->_V[x] != kk) this->_PC += 2; // Overflow check below.
+            this->_PC += 2;
 
             break;
         case (0x5000):
             //5xy0: Skip next instruction if Vx = Vy.
             if (this->_V[x] == this->_V[y]) this->_PC += 2; // Overflow check below.
+            this->_PC += 2;
 
             break;
         case (0x6000):
             //6xkk: Set Vx = kk.
             this->_V[x] = kk;
+            this->_PC += 2;
 
             break;
         case (0x7000):
             //7xkk: Set Vx = Vx + kk.
             // TODO: carry flag?
             this->_V[x] += kk;
+            this->_PC += 2;
 
             break;
         case (0x8000):
@@ -161,19 +169,24 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+                    this->_error = true;
 
                     break;
             }
+
+            this->_PC += 2;
 
             break; // End 0x8000 Opcodes
         case (0x9000):
             //9xy0: Skip next instruction if Vx != Vy.
             if (this->_V[x] != this->_V[y]) this->_PC += 2; // Overflow check below.
+            this->_PC += 2;
 
             break;
         case (0xA000):
             //Annn: Set I = nnn.
             this->_I = nnn;
+            this->_PC += 2;
 
             break;
         case (0xB000):
@@ -191,6 +204,8 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
             this->_V[x] = (random_value & kk);
         }
+            this->_PC += 2;
+
             break;
         case (0xD000): {
             //Dxyn: Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
@@ -201,6 +216,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
             this->_V[0xF] = this->_display->drawSprite(sprite, n, this->_V[x], this->_V[y]);
         }
+            this->_PC += 2;
 
             break;
         case (0xE000):
@@ -218,9 +234,11 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+                    this->_error = true;
 
                     break;
             }
+            this->_PC += 2;
 
             break;
         case (0xF000): {
@@ -283,9 +301,11 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 default:
                     std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
+                    this->_error = true;
 
                     break;
             }
+            this->_PC += 2;
 
             break; // End 0xF000 opcodes
         }
@@ -297,7 +317,6 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             break;
     }
 
-    this->_PC += 2;
     this->_PC &= 0x0FFF; // Address range is 4095 = 0x0FFF. This limits to valid memory range.
 }
 
