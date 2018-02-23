@@ -55,8 +55,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                     break;
                 case (0x00EE):
                     //00EE: Return from a subroutine.
-                    this->_PC = this->_memory->popStack((uint8_t) (this->_SP >> 8));
-                    this->_PC = this->_memory->popStack((uint8_t) (this->_SP & 0x00FF));
+                    this->_PC = this->_memory->popStack(this->_SP);
                     this->_SP--;
 
                     break;
@@ -75,9 +74,9 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             break;
         case (0x2000):
             //2nnn: Call subroutine at nnn
+            this->_memory->pushStack(this->_SP, this->_PC);
             this->_SP++;
-            this->_memory->pushStack(this->_SP, x); // Most sig byte
-            this->_memory->pushStack(this->_SP, kk); // Least sig byte
+            this->_PC = nnn;
 
             break;
         case (0x3000):

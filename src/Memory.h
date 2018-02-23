@@ -32,15 +32,15 @@ public:
 
     void writeBytes(const uint8_t *data, uint16_t data_size, uint16_t start_address);
 
-    void pushStack(uint16_t sp, uint8_t value);
+    void pushStack(uint16_t sp, uint16_t value);
 
-    uint8_t popStack(uint16_t sp);
+    uint16_t popStack(uint16_t sp);
 
     void reset();
 
 private:
     uint8_t _map[Memory::memorySize] = {0};
-    uint8_t _stack[Memory::stackSize] = {0};
+    uint16_t _stack[Memory::stackSize] = {0};
 
     constexpr static uint8_t _fontset[80] =
             {
