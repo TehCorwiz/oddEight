@@ -15,7 +15,7 @@
 class Cpu {
 public:
     constexpr static uint16_t executionStartAddress = 0x200;
-    constexpr static uint16_t executionSpeed = 60; // In cycles per second (Hz)
+    constexpr static uint16_t executionSpeed = 30; // In cycles per frame
 
     Cpu(Memory *memory, IO *io, Display *display);
 

@@ -33,17 +33,6 @@ void Memory::writeByte(const uint8_t value, const uint16_t address) {
     this->_map[address] = value;
 }
 
-void Memory::writeWord(uint16_t value, uint16_t address) {
-    if ((address + 1) > Memory::memorySize)
-        throw std::range_error("Attempted to write beyond memory bounds.");
-
-    auto most_significant = (uint8_t) (value >> 8);
-    auto least_significant = (uint8_t) ((value & 0x00FF));
-
-    this->_map[address] = most_significant;
-    this->_map[address + 1] = least_significant;
-}
-
 void Memory::writeBytes(const uint8_t data[], const uint16_t data_size, const uint16_t start_address) {
     if ((start_address + data_size) > Memory::memorySize)
         throw std::range_error("Attempted to write beyond memory bounds.");
