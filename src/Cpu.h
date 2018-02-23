@@ -14,6 +14,9 @@
 
 class Cpu {
 public:
+    constexpr static uint16_t executionStartAddress = 0x200;
+    constexpr static uint16_t executionSpeed = 60; // In cycles per second (Hz)
+
     Cpu(Memory *memory, IO *io, Display *display);
 
     void reset();
@@ -23,8 +26,6 @@ public:
     const uint32_t cycleCount() const;
 
     const bool error() const;
-
-    constexpr static uint16_t ExecutionStartAddress = 0x200;
 private:
     /* Referecnces */
     Memory *_memory;
@@ -33,7 +34,7 @@ private:
 
     /* Registers*/
     uint16_t _I = 0;   // Index (16-bit)
-    uint16_t _PC = ExecutionStartAddress;  // Program Counter (16-bit). Execution begins at address 0x200
+    uint16_t _PC = executionStartAddress;  // Program Counter (16-bit). Execution begins at address 0x200
     uint16_t _SP = 0;  // Stack Pointer (16-bit)
 
     uint8_t _V[16] = {0}; // V0 - VF (VF doubles as carry flag for some operations)
@@ -54,8 +55,16 @@ private:
 
     uint16_t _popStack();
 
+    /* Helpers */
+    std::string _toHexString(uint16_t value);
+
+    void _dumpDisassembly();
+
     /* Stats */
     uint32_t _cycleCount = 0;
+
+    std::string _disassembly[Memory::memorySize];
+
     bool _error = false;
 };
 
