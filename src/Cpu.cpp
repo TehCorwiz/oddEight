@@ -84,6 +84,16 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             if (this->_V[x] == kk) this->_PC += 2; // Overflow check below.
 
             break;
+        case (0x4000):
+            //4xkk: Skip next instruction if Vx != kk.
+            if (this->_V[x] != kk) this->_PC += 2; // Overflow check below.
+
+            break;
+        case (0x5000):
+            //5xy0: Skip next instruction if Vx = Vy.
+            if (this->_V[x] == this->_V[y]) this->_PC += 2; // Overflow check below.
+
+            break;
         case (0x6000):
             //6xkk: Set Vx = kk.
             this->_V[x] = kk;
@@ -156,9 +166,19 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             }
 
             break; // End 0x8000 Opcodes
+        case (0x9000):
+            //9xy0: Skip next instruction if Vx != Vy.
+            if (this->_V[x] != this->_V[y]) this->_PC += 2; // Overflow check below.
+
+            break;
         case (0xA000):
             //Annn: Set I = nnn.
             this->_I = nnn;
+
+            break;
+        case (0xB000):
+            //Bnnn: Jump to location nnn + V0.
+            this->_PC = nnn + this->_V[0];
 
             break;
         case (0xC000): {
