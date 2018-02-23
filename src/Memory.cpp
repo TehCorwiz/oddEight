@@ -60,7 +60,7 @@ void Memory::reset() {
         cell = 0;
     }
 
-    for (uint8_t &cell: this->_stack) {
+    for (uint16_t &cell: this->_stack) {
         cell = 0;
     }
 
