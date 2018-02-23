@@ -8,7 +8,8 @@
 #include "Memory.h"
 
 Memory::Memory() {
-    reset();
+    this->_loadFontset();
+
     std::cout << "Memory initialized." << std::endl;
 }
 
@@ -56,17 +57,15 @@ void Memory::writeBytes(const uint8_t data[], const uint16_t data_size, const ui
 }
 
 void Memory::reset() {
-    for (uint8_t &cell: this->_map) {
-        cell = 0;
-    }
-
-    for (uint16_t &cell: this->_stack) {
-        cell = 0;
-    }
+    // Clear memory
+    for (uint8_t &cell: this->_map) { cell = 0; }
 
     std::cout << "Memory cleared." << std::endl;
+}
 
+void Memory::_loadFontset() {
     // Load fontset at address range 0x00 => 0x50
-    std::cout << "Memory: Loading fontset..." << std::endl;
     writeBytes(this->_fontset, 80, Memory::fontsetStartaddress);
+    std::cout << "Fontset loaded at address 0x" << std::hex << std::uppercase << Memory::fontsetStartaddress
+              << std::endl;
 }

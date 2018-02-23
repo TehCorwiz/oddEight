@@ -20,7 +20,11 @@ void Cpu::reset() {
     this->_PC = Cpu::ExecutionStartAddress;
     this->_SP = 0;
 
+    // Reset registers
     for (uint8_t &v_register: this->_V) { v_register = 0; }
+
+    // Reset stack
+    for (uint16_t &cell: this->_stack) { cell = 0; }
 
     this->_delayTimer = 0;
     this->_soundTimer = 0;
