@@ -70,11 +70,3 @@ void Memory::reset() {
     std::cout << "Memory: Loading fontset..." << std::endl;
     writeBytes(this->_fontset, 80, Memory::fontsetStartaddress);
 }
-
-uint16_t Memory::popStack(uint16_t sp) {
-    return this->_stack[sp];
-}
-
-void Memory::pushStack(const uint16_t sp, const uint16_t value) {
-    this->_stack[sp] = value;
-}

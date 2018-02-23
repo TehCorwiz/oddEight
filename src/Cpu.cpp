@@ -57,8 +57,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                     break;
                 case (0x00EE):
                     //00EE: Return from a subroutine.
-                    this->_SP--;
-                    this->_PC = this->_memory->popStack(this->_SP);
+                    this->_PC = this->_popStack();
 
                     break;
                 default:
@@ -77,8 +76,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             break;
         case (0x2000):
             //2nnn: Call subroutine at nnn
-            this->_memory->pushStack(this->_SP, this->_PC);
-            this->_SP++;
+            this->_pushStack(this->_PC);
             this->_PC = nnn;
 
             break;
@@ -343,4 +341,14 @@ void Cpu::runCycle() {
 
 const bool Cpu::error() const {
     return this->_error;
+}
+
+uint16_t Cpu::_popStack() {
+    this->_SP--;
+    return this->_stack[this->_SP];
+}
+
+void Cpu::_pushStack(const uint16_t value) {
+    this->_stack[this->_SP] = value;
+    this->_SP++;
 }

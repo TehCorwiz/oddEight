@@ -38,12 +38,21 @@ private:
 
     uint8_t _V[16] = {0}; // V0 - VF (VF doubles as carry flag for some operations)
 
+    // OK, stack is here instead of memory because it "feels" better to code with it here, and it's not used in the
+    // Memory class directly. It's possible that there is some ROM out there that relies on the stack being addressable
+    // but I would have had to bother with that eventually anyway.
+    uint16_t _stack[Memory::stackSize] = {0};
+
     /* Timers */
     uint8_t _delayTimer = 0;
     uint8_t _soundTimer = 0;
 
     /* actions */
     void _executeOpcode(uint16_t opcode);
+
+    void _pushStack(uint16_t value);
+
+    uint16_t _popStack();
 
     /* Stats */
     uint32_t _cycleCount = 0;
