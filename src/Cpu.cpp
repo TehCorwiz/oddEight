@@ -55,8 +55,8 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                     break;
                 case (0x00EE):
                     //00EE: Return from a subroutine.
-                    this->_PC = this->_memory->popStack(this->_SP);
                     this->_SP--;
+                    this->_PC = this->_memory->popStack(this->_SP);
 
                     break;
                 default:
