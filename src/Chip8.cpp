@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <thread>
 
 #include "Chip8.h"
 
@@ -73,8 +74,27 @@ void Chip8::run() {
 
     // Main loop
     while (this->_isRunning && !this->_cpu->error()) {
-        this->_cpu->runCycle();
+        this->_runFrame();
     }
+}
+
+void Chip8::_runFrame() {
+    constexpr auto frame_duration = std::chrono::nanoseconds(1000000000 / Display::framesPerSecond);
+
+    const auto tick_start = std::chrono::high_resolution_clock::now();
+
+    for (uint8_t ticks = 0; ticks < Cpu::instructionsPerFrame; ticks++) {
+        this->_cpu->runTick();
+        if (this->_cpu->error()) return;
+    }
+
+    const auto tick_end = std::chrono::high_resolution_clock::now();
+
+    // Sleep until time for next frame
+    const std::chrono::duration<int64_t, std::nano> elapsed = tick_end - tick_start;
+    const std::chrono::duration<int64_t, std::nano> delta = frame_duration - elapsed;
+
+    std::this_thread::sleep_for(delta);
 }
 
 const bool Chip8::isRunning() const {

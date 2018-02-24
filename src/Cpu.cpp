@@ -30,7 +30,7 @@ void Cpu::reset() {
     this->_delayTimer = 0;
     this->_soundTimer = 0;
 
-    this->_cycleCount = 0;
+    this->_tickCount = 0;
     this->_error = false;
 
     std::cout << "CPU reset." << std::endl;
@@ -69,7 +69,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
                     break;
                 default:
-                    std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
+                    std::cout << "ERROR on tick " << this->_tickCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
                     this->_error = true;
 
@@ -189,7 +189,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
                     break;
                 default:
-                    std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
+                    std::cout << "ERROR on tick " << this->_tickCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
                     this->_error = true;
 
@@ -261,7 +261,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
                     break;
                 default:
-                    std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
+                    std::cout << "ERROR on tick " << this->_tickCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
                     this->_error = true;
 
@@ -338,7 +338,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
                     break;
                 default:
-                    std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
+                    std::cout << "ERROR on tick " << this->_tickCount << " Unknown opcode: 0x"
                               << std::hex << std::uppercase << opcode << std::endl;
                     this->_error = true;
 
@@ -349,7 +349,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
             break; // End 0xF000 opcodes
         }
         default:
-            std::cout << "ERROR on cycle " << this->_cycleCount << " Unknown opcode: 0x"
+            std::cout << "ERROR on tick " << this->_tickCount << " Unknown opcode: 0x"
                       << std::hex << std::uppercase << opcode << std::endl;
             this->_error = true;
 
@@ -359,11 +359,11 @@ void Cpu::_executeOpcode(uint16_t opcode) {
     this->_PC &= 0x0FFF; // Address range is 4095 = 0x0FFF. This limits to valid memory range.
 }
 
-const uint32_t Cpu::cycleCount() const {
-    return this->_cycleCount;
+const uint32_t Cpu::tickCount() const {
+    return this->_tickCount;
 }
 
-void Cpu::runCycle() {
+void Cpu::runTick() {
     // Read next opcode
     uint16_t opcode = this->_memory->readWord(_PC);
 
@@ -375,7 +375,7 @@ void Cpu::runCycle() {
     if (this->_soundTimer > 0) --this->_soundTimer;
 
     // Update stats
-    this->_cycleCount++;
+    this->_tickCount++;
 }
 
 const bool Cpu::error() const {

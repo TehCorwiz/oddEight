@@ -12,7 +12,7 @@ class Display {
 public:
     constexpr static uint8_t displayWidth = 64;
     constexpr static uint8_t displayHeight = 32;
-    constexpr static uint8_t framerate = 60; //Hz
+    constexpr static uint8_t framesPerSecond = 60;
 
     Display();
 

@@ -40,6 +40,8 @@ private:
 
     /* System state */
     bool _isRunning = false;
+
+    void _runFrame();
 };
 
 
