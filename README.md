@@ -56,3 +56,18 @@ I can see the benefit in the hungarian style that older MS software uses, but I 
 
 If the length of an abbreviation is 1 or 2 characters then they can both be uppercase, any longer and it's CamelCase. The primary benefit is that it's more pleasing on the eye, eg. register names.
 
+## General Thoughts
+
+So, I wanted to touch upon a few ideas I keep in mind, practices I've picked up over the years. These are aphorisms, and of course there are exceptions to each one.
+
+### Once, twice, refactor.
+
+After you've repeated a pattern multiple times it's probably time to break off and formalize that pattern. If I think of an exception I'll include it. The simplest example of this is creating functions to hold general code (Chip8::_fileSize function for example). A more complex example was a home rolled e-commerce platform that had multiple search methods for the same data on the same page. The takeaway should be that code should move to where it helps you. Sometimes this means creating an abstract class and subclassing your objects to provide a consistent interface, or maybe creating entirely new stand-alone services.
+
+### Avoid abstraction for the sake of abstraction. 
+
+This is the dramatic foil to "Once, Twice, Refactor". Don't abstract something just because you can. Keep your code as close as is comfortable to the data it operates on.
+
+### Don't solve problems you don't have.
+
+Lots, and I mean LOTS of developers I've worked with like to solve scaling problems that they'll never have, and create clever solutions to what-ifs that never come about. Solve the problems you have, then stop. If you know that you'll run into a problem, or a feature is on the roadmap then by all means take it into account when designing your system components but don't implement that until necessary. Don't build a boat in the desert just because you see a mirage of water off in the distance, you'll end up carrying that boat for nothing.
