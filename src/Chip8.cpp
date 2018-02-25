@@ -96,6 +96,8 @@ void Chip8::_runFrame() {
         if (this->_cpu->error()) return;
     }
 
+    this->_cpu->decrementTimers();
+
     const auto tick_end = std::chrono::high_resolution_clock::now();
 
     // Sleep until time for next frame

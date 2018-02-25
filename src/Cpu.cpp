@@ -44,12 +44,14 @@ void Cpu::runTick() {
     // Execute opcode
     this->_executeOpcode(opcode);
 
+    // Update stats
+    this->_tickCount++;
+}
+
+void Cpu::decrementTimers() {
     // Update timers
     if (this->_delayTimer > 0) --this->_delayTimer;
     if (this->_soundTimer > 0) --this->_soundTimer;
-
-    // Update stats
-    this->_tickCount++;
 }
 
 const bool Cpu::error() const { return this->_error; }

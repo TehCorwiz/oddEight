@@ -31,6 +31,8 @@ public:
 
     void runTick();
 
+    void decrementTimers(); // Happens once per frame.
+
     // Getters for private values.
     const bool error() const;
     const uint32_t tickCount() const;
