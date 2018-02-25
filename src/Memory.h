@@ -22,6 +22,8 @@ public:
 
     Memory();
 
+    void reset();
+
     uint8_t readByte(uint16_t address);
 
     uint16_t readWord(uint16_t address);
@@ -30,7 +32,7 @@ public:
 
     void writeBytes(const uint8_t *data, uint16_t data_size, uint16_t start_address);
 
-    void reset();
+    const uint8_t *map() const;
 
 private:
     uint8_t _map[Memory::memorySize] = {0};

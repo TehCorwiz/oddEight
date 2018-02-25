@@ -6,10 +6,18 @@
 
 #include "Memory.h"
 
+/* Public */
 Memory::Memory() {
     this->_loadFontset();
 
     std::cout << "Memory initialized." << std::endl;
+}
+
+void Memory::reset() {
+    // Clear memory
+    for (uint8_t &cell: this->_map) { cell = 0; }
+
+    std::cout << "Memory cleared." << std::endl;
 }
 
 uint8_t Memory::readByte(const uint16_t address) {
@@ -44,13 +52,10 @@ void Memory::writeBytes(const uint8_t data[], const uint16_t data_size, const ui
     std::cout << data_size << " bytes written to memory at address " << start_address << std::endl;
 }
 
-void Memory::reset() {
-    // Clear memory
-    for (uint8_t &cell: this->_map) { cell = 0; }
+const uint8_t *Memory::map() const { return this->_map; }
 
-    std::cout << "Memory cleared." << std::endl;
-}
 
+/* Private */
 void Memory::_loadFontset() {
     // Load fontset at address range 0x00 => 0x50
     writeBytes(this->_fontset, 80, Memory::fontsetStartaddress);

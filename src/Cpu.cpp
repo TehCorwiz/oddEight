@@ -8,6 +8,7 @@
 
 #include "Cpu.h"
 
+/* Public */
 Cpu::Cpu(Memory *memory, IO *io, Display *display) {
     this->_memory = memory;
     this->_io = io;
@@ -36,6 +37,40 @@ void Cpu::reset() {
     std::cout << "CPU reset." << std::endl;
 }
 
+void Cpu::runTick() {
+    // Read next opcode
+    uint16_t opcode = this->_memory->readWord(_PC);
+
+    // Execute opcode
+    this->_executeOpcode(opcode);
+
+    // Update timers
+    if (this->_delayTimer > 0) --this->_delayTimer;
+    if (this->_soundTimer > 0) --this->_soundTimer;
+
+    // Update stats
+    this->_tickCount++;
+}
+
+const bool Cpu::error() const { return this->_error; }
+
+const uint32_t Cpu::tickCount() const { return this->_tickCount; }
+
+const uint16_t Cpu::I() const { return this->_I; }
+
+const uint16_t Cpu::PC() const { return this->_PC; }
+
+const uint16_t Cpu::SP() const { return this->_SP; }
+
+const uint8_t *Cpu::V() const { return this->_V; }
+
+const uint16_t *Cpu::stack() const { return this->_stack; }
+
+const uint8_t Cpu::delayTimer() const { return this->_delayTimer; }
+
+const uint8_t Cpu::soundTimer() const { return this->_soundTimer; }
+
+/* Private */
 void Cpu::_executeOpcode(uint16_t opcode) {
     //So, despite not all opcodes using things the same way, this gives us a common naming convention to various
     // opcode components.
@@ -359,37 +394,14 @@ void Cpu::_executeOpcode(uint16_t opcode) {
     this->_PC &= 0x0FFF; // Address range is 4095 = 0x0FFF. This limits to valid memory range.
 }
 
-const uint32_t Cpu::tickCount() const {
-    return this->_tickCount;
-}
-
-void Cpu::runTick() {
-    // Read next opcode
-    uint16_t opcode = this->_memory->readWord(_PC);
-
-    // Execute opcode
-    this->_executeOpcode(opcode);
-
-    // Update timers
-    if (this->_delayTimer > 0) --this->_delayTimer;
-    if (this->_soundTimer > 0) --this->_soundTimer;
-
-    // Update stats
-    this->_tickCount++;
-}
-
-const bool Cpu::error() const {
-    return this->_error;
+void Cpu::_pushStack(const uint16_t value) {
+    this->_stack[this->_SP] = value;
+    this->_SP++;
 }
 
 uint16_t Cpu::_popStack() {
     this->_SP--;
     return this->_stack[this->_SP];
-}
-
-void Cpu::_pushStack(const uint16_t value) {
-    this->_stack[this->_SP] = value;
-    this->_SP++;
 }
 
 std::string Cpu::_toHexString(uint16_t value) {

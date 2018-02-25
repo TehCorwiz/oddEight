@@ -6,10 +6,6 @@
 
 #include "Display.h"
 
-Display::Display() {
-    std::cout << "Display initialized." << std::endl;
-}
-
 void Display::clear() {
     for (uint8_t &pixel_block: this->_bitmap) {
         pixel_block = 0;
@@ -33,3 +29,5 @@ uint8_t Display::drawSprite(const uint8_t sprite[], uint8_t height, uint8_t x, u
 
     return collision;
 }
+
+uint8_t *Display::bitmap() { return this->_bitmap; }

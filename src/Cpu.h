@@ -31,9 +31,16 @@ public:
 
     void runTick();
 
-    const uint32_t tickCount() const;
-
+    // Getters for private values.
     const bool error() const;
+    const uint32_t tickCount() const;
+    const uint16_t I() const;
+    const uint16_t PC() const;
+    const uint16_t SP() const;
+    const uint8_t* V() const;
+    const uint16_t* stack() const;
+    const uint8_t delayTimer() const;
+    const uint8_t soundTimer() const;
 
 private:
     /* Referecnces */
@@ -57,6 +64,13 @@ private:
     uint8_t _delayTimer = 0;
     uint8_t _soundTimer = 0;
 
+    /* Stats */
+    uint32_t _tickCount = 0;
+
+    std::string _disassembly[Memory::memorySize];
+
+    bool _error = false;
+
     /* actions */
     void _executeOpcode(uint16_t opcode);
 
@@ -68,13 +82,6 @@ private:
     std::string _toHexString(uint16_t value);
 
     void _dumpDisassembly();
-
-    /* Stats */
-    uint32_t _tickCount = 0;
-
-    std::string _disassembly[Memory::memorySize];
-
-    bool _error = false;
 };
 
 

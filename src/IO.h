@@ -10,9 +10,10 @@
 
 class IO {
 public:
-    IO();
-
     bool readKey(uint8_t key);
+
+    bool keyDown(uint8_t key);
+    bool keyUp(uint8_t key);
 
 private:
     bool _keypad[16] = {false};
