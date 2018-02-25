@@ -16,6 +16,12 @@
 
 class Chip8 {
 public:
+    /* System components */
+    Memory *memory;
+    Cpu *cpu;
+    IO *io;
+    Display *display;
+
     Chip8();
 
     void reset();
@@ -29,12 +35,6 @@ public:
     const bool isRunning() const;
 
 private:
-    /* System components */
-    Memory *_memory;
-    Cpu *_cpu;
-    IO *_io;
-    Display *_display;
-
     /* Helper */
     static std::streampos _fileSize(std::ifstream &file_stream);
 

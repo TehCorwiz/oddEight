@@ -10,10 +10,10 @@
 
 /* Public */
 Chip8::Chip8() {
-    this->_memory = new Memory;
-    this->_io = new IO;
-    this->_display = new Display;
-    this->_cpu = new Cpu(this->_memory, this->_io, this->_display);
+    this->memory = new Memory;
+    this->io = new IO;
+    this->display = new Display;
+    this->cpu = new Cpu(this->memory, this->io, this->display);
 
     std::cout << "System initialized." << std::endl;
 }
@@ -21,9 +21,9 @@ Chip8::Chip8() {
 void Chip8::reset() {
     std::cout << "Chip8: Resetting system..." << std::endl;
 
-    this->_display->clear();
-    this->_memory->reset();
-    this->_cpu->reset();
+    this->display->clear();
+    this->memory->reset();
+    this->cpu->reset();
 
     std::cout << "Chip8 reset." << std::endl;
 }
@@ -55,7 +55,7 @@ bool Chip8::loadRom(std::ifstream &rom_file) {
     // because we're limiting the file size to less than 4KB.
     const auto size_read = (uint16_t) rom_file.readsome(rom_data, Memory::romMaxSize);
 
-    this->_memory->writeBytes((uint8_t *) rom_data, size_read, Memory::romStartAddress);
+    this->memory->writeBytes((uint8_t *) rom_data, size_read, Memory::romStartAddress);
 
     return false;
 }
@@ -64,7 +64,7 @@ void Chip8::run() {
     this->_isRunning = true;
 
     // Main loop
-    while (this->_isRunning && !this->_cpu->error()) {
+    while (this->_isRunning && !this->cpu->error()) {
         this->_runFrame();
     }
 }
@@ -92,11 +92,11 @@ void Chip8::_runFrame() {
     const auto tick_start = std::chrono::high_resolution_clock::now();
 
     for (uint8_t ticks = 0; ticks < Cpu::instructionsPerFrame; ticks++) {
-        this->_cpu->runTick();
-        if (this->_cpu->error()) return;
+        this->cpu->runTick();
+        if (this->cpu->error()) return;
     }
 
-    this->_cpu->decrementTimers();
+    this->cpu->decrementTimers();
 
     const auto tick_end = std::chrono::high_resolution_clock::now();
 
