@@ -177,7 +177,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
 
                     break;
                 case (0x0002):
-                    //8xy2: Set Vx = Set Vx = Vx AND Vy.
+                    //8xy2: Set Vx = Vx AND Vy.
                     this->_disassembly[this->_PC] = "AND Vx: " + std::to_string(x) + ", Vy: " + std::to_string(y);
                     this->_V[x] &= this->_V[y];
 
@@ -191,7 +191,7 @@ void Cpu::_executeOpcode(uint16_t opcode) {
                 case (0x0004): {
                     //8xy4: Set Vx = Vx + Vy, set VF = carry.
                     this->_disassembly[this->_PC] = "OR Vx: " + std::to_string(x) + ", Vy: " + std::to_string(y);
-                    auto new_vx = ((uint16_t) this->_V[x] ^ (uint16_t) this->_V[y]);
+                    auto new_vx = ((uint16_t) this->_V[x] + (uint16_t) this->_V[y]);
                     if (new_vx > 0xFF) this->_V[0xF] = 1;
                     this->_V[x] = (uint8_t) new_vx;
                 }
