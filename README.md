@@ -26,7 +26,7 @@ Resources used in this project:
 
 It's been a while since I learned a new language. I wouldn't consider c++ to be a new language to me, but it has been over a decade since I did any significant tinkering with it. About three years ago I had to modify something to read from a named pipe instead of a file descriptor which is fairly trivial on win32. Suffice to say I'm rusty enough and enough has changed that I'll call it a new language. And while I've done some C embedded tinkering in the last few years, that's a whole separate world as far as working environment limitations and build systems go.
 
-Recently work has had me writing PHP and JS primarily. But personally I've developed a preference for static typing, both from a code clarity standpoint as well as the fact that it lets my tools do static analysis, smart autocomplete, etc. I feel more productive and spend less time trying to reason about or catch invalid types.
+Recently work has had me writing Ruby, PHP, and JS primarily. But personally I've developed a preference for static typing, both from a code clarity standpoint as well as the fact that it lets my tools do static analysis, smart autocomplete, etc. I feel more productive and spend less time trying to reason about or catch invalid types.
 
 ## Design notes.
 
